@@ -37,6 +37,15 @@ def clipboard_fig(fig):
     else:
         filename = 'Figure'
 
+    # Remove illegal filename characters
+    illegal = '\/:*?"<>|'
+    for ill in illegal:
+        filename = filename.replace(ill, '')
+
+    # In case you're just trying to cause problems
+    if not any(filename):
+        filename = 'Figure'
+
     picklefn = filename + pickleext
     imagefn = filename + imageext
 
