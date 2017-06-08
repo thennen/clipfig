@@ -43,7 +43,7 @@ def clipboard_fig(fig):
         filename = filename.replace(ill, '')
 
     # In case you're just trying to cause problems
-    if not any(filename):
+    if filename == '':
         filename = 'Figure'
 
     picklefn = filename + pickleext
