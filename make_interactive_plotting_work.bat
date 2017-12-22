@@ -1,0 +1,2 @@
+reg add HKCU\SOFTWARE\Classes\.plt /v "" /t REG_SZ /d "pyplot" /f
+reg add HKCU\SOFTWARE\Classes\pyplot\shell\open\command /v "" /t REG_SZ /d "\"C:\ProgramData\Anaconda3\Scripts\ipython.exe\" -i --profile=basic \"C:\t\plot_pickle\plotpickle.py\" \"%%1\"" /f
