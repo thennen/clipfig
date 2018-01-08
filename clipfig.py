@@ -49,12 +49,23 @@ def clipboard_fig(fig):
     picklefn = filename + pickleext
     imagefn = filename + imageext
 
+
+    def numberfile(filename, number, zpad=4):
+        # Put a _#### in the filename
+        return '{:04}'.format(number).join(os.path.splitext(filename))
+
     # if file exists, start appending numbers
     if isfile(pjoin(outdir, picklefn)) or isfile(pjoin(outdir, imagefn)):
-        matches = fnmatch.filter(listdir(outdir), filename + '_*')
+        # Need to escape square brackets, because they mean something in a glob pattern
+        # replace the left square bracket with [[]
+        glob_pattern = filename + '_*'
+        glob_pattern = re.sub(r'\[', '[[]', glob_pattern)
+        glob_pattern = re.sub(r'(?<!\[)\]', '[]]', glob_pattern)
+        matches = fnmatch.filter(listdir(outdir), glob_pattern)
         if len(matches) == 0:
-            picklefn = '_2'.join(splitext(picklefn))
-            imagefn = '_2'.join(splitext(imagefn))
+            # No matches, so it's the first repeated filename. rename it with _0002.
+            picklefn = numberfile(picklefn, 2, zpad=4)
+            imagefn = numberfile(imagefn, 2, zpad=4)
         else:
             # Get the string following the underscore
             numberstrings = [splitext(p)[0].replace(filename + '_', '') for p in matches]
