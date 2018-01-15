@@ -82,8 +82,8 @@ def clipboard_fig(fig):
     imagefp = pjoin(outdir, imagefn)
     picklefp = pjoin(outdir, picklefn)
 
-    fig.savefig(imagefp )
-    with open(picklefp , 'wb') as f:
+    fig.savefig(imagefp)
+    with open(picklefp, 'wb') as f:
         pickle.dump(fig, f)
 
     # Copy to clipboard with sweet C# program
