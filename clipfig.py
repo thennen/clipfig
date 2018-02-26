@@ -52,7 +52,7 @@ def clipboard_fig(fig):
 
     def numberfile(filename, number, zpad=4):
         # Put a _#### in the filename
-        return '{:04}'.format(number).join(os.path.splitext(filename))
+        return '_{:04}'.format(number).join(os.path.splitext(filename))
 
     # if file exists, start appending numbers
     if isfile(pjoin(outdir, picklefn)) or isfile(pjoin(outdir, imagefn)):
