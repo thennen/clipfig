@@ -1,6 +1,7 @@
 import os
 import pickle
 import fnmatch
+import re
 from matplotlib import pyplot as plt
 
 def clipboard_fig(fig):
@@ -52,7 +53,9 @@ def clipboard_fig(fig):
 
     def numberfile(filename, number, zpad=4):
         # Put a _#### in the filename
-        return '_{:04}'.format(number).join(os.path.splitext(filename))
+        # 
+        numstr = '_' + format(number, '0{}'.format(zpad))
+        return numstr.join(os.path.splitext(filename))
 
     # if file exists, start appending numbers
     if isfile(pjoin(outdir, picklefn)) or isfile(pjoin(outdir, imagefn)):
@@ -76,15 +79,17 @@ def clipboard_fig(fig):
                     # if nothing after an underscore is a number, default to 2
                     return 2
             n = max(map(wtf, numberstrings))
-            picklefn = '_{}'.format(n+1).join(splitext(picklefn))
-            imagefn = '_{}'.format(n+1).join(splitext(imagefn))
+            picklefn = numberfile(picklefn, n+1, zpad=4)
+            imagefn = numberfile(imagefn, n+1, zpad=4)
 
     imagefp = pjoin(outdir, imagefn)
     picklefp = pjoin(outdir, picklefn)
 
     fig.savefig(imagefp)
+    print('Wrote file: {}'.format(imagefp))
     with open(picklefp, 'wb') as f:
         pickle.dump(fig, f)
+    print('Wrote file: {}'.format(picklefp))
 
     # Copy to clipboard with sweet C# program
     os.system('C:\\t\\plot_pickle\\file2clip \"{}\" \"{}\"'.format(picklefp, imagefp))
